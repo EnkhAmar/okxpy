@@ -1,12 +1,11 @@
 import setuptools
-import okxpy
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="okxpy",
-    version=okxpy.__version__,
+    version="0.0.2",
     author="Enkh-Amar Ganbat",
     description="A pip package for a Python wrapper that provides an interface to the OKX API",
     long_description=long_description,
