@@ -1,1 +1,2 @@
-from okx import (OKX, OKXBroker)
+from .okx import OKX, OKXBroker
+from . import utils
