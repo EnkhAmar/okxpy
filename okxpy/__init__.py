@@ -1,4 +1,4 @@
-from .okx import *
+from .okxpy import *
 import utils
 
 __all__ = [
@@ -7,4 +7,4 @@ __all__ = [
     'utils',
 ]
 
-__version__ = "0.0.15"
+__version__ = "0.0.16"
