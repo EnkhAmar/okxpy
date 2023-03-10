@@ -3,7 +3,8 @@ import utils
 
 __all__ = [
     'OKX',
-    'OKXBroker'
+    'OKXBroker',
+    'utils',
 ]
 
-__version__ = "0.0.11"
+__version__ = "0.0.14"
