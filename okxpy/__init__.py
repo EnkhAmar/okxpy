@@ -1,4 +1,4 @@
-from . import utils
+import utils
 from .okxpy import *
 
 __all__ = [
@@ -7,4 +7,4 @@ __all__ = [
     'utils',
 ]
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
