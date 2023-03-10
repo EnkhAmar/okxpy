@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "okxpy"
-version = "0.0.29"
+version = "0.1.0"
 authors = [
   { name="Enkh-Amar Ganbat", email="amra.developer@gmail.com" },
 ]
