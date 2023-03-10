@@ -6,6 +6,5 @@ __version__ = "0.0.17"
 __all__ = [
     'OKX',
     'OKXBroker',
-    'utils',
-    '__version__'
+    'utils'
 ]
