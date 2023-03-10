@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="okxpy",
-    version="0.0.14",
+    version="0.0.15",
     author="Enkh-Amar Ganbat",
     description="A pip package for a Python wrapper that provides an interface to the OKX API",
     long_description=long_description,
@@ -15,7 +15,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     py_modules=["okxpy"],
     package_dir={'':'okxpy'},
     packages=setuptools.find_packages(where="okxpy"),
