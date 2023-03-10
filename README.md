@@ -14,3 +14,11 @@ Overall, Okxpy provides a simple, convenient, and reliable way to access the OKX
 ## Reference
 
 [How to upload package to pypi?](https://www.freecodecamp.org/news/how-to-create-and-upload-your-first-python-package-to-pypi/)
+
+
+## Push update to pypi
+
+```shell
+python -m build
+twine upload --skip-existing dist/*  
+```
