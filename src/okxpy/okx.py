@@ -3,7 +3,7 @@ import json
 import urllib.parse
 from typing import Literal
 # Local imports
-from okxpy import utils
+from . import utils
 
 class OKX:
     HEADER = {
