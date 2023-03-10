@@ -13,6 +13,8 @@ Overall, Okxpy provides a simple, convenient, and reliable way to access the OKX
 
 ## Reference
 
+[OKX API Documentation](https://www.okx.com/docs-v5/en/)
+
 [How to upload package to pypi?](https://www.freecodecamp.org/news/how-to-create-and-upload-your-first-python-package-to-pypi/)
 
 
