@@ -1,10 +1,11 @@
-from .okxpy import *
+from .okx import OKX, OKXBroker
 import utils
+
+__version__ = "0.0.17"
 
 __all__ = [
     'OKX',
     'OKXBroker',
     'utils',
+    '__version__'
 ]
-
-__version__ = "0.0.16"

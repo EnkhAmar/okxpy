@@ -1,8 +1,9 @@
-from . import utils
 import requests
 import json
 import urllib.parse
 from typing import Literal
+# Local imports
+from . import utils
 
 class OKX:
     HEADER = {
