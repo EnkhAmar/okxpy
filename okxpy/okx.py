@@ -1,4 +1,4 @@
-from . import utils
+import utils
 import requests
 import json
 import urllib.parse
