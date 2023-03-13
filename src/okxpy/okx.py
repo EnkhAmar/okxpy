@@ -112,7 +112,7 @@ class OKX:
         :param limit String: (optional) Number of results per request. The maximum is `100`; The default is `100`
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["instType", "uly", "instFamily", "instId", "ordType", "state", "after", "before", "limit"])
-        query_string = ("?" + urllib.parse.urlencode(query=kwargs, doseq=False)) if list(kwargs.items()) else ""
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/trade/orders-pending{query_string}")
     
 
@@ -164,6 +164,30 @@ class OKX:
         """
         kwargs = utils.validate_kwargs(kwargs, ["ccy", "amt", "from", "to"], ["type", "loanTrans", "omitPosRisk"] + ["subAcct"])
         return self.send_signed_request("POST", f"/api/v5/asset/transfer", payload=kwargs)
+    
+
+    def get_funds_transfer_state(self, **kwargs):
+        """
+        Retrieve the transfer state data of the last 2 weeks.
+
+        :param transId String: (conditional) Transfer ID. Either transId or clientId is required. If both are passed, transId will be used.
+        :param clientId String: (conditional) Client-supplied ID. A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+        :param type String: (optional) Transfer type. `0`: transfer within account, `1`: master account to sub-account (Only applicable to API Key from master account), `2`: sub-account to master account (Only applicable to API Key from master account), `3`: sub-account to master account (Only applicable to APIKey from sub-account), `4`: sub-account to sub-account (Only applicable to APIKey from sub-account, and target account needs to be another sub-account which belongs to same master account). The default is `0`
+        """
+        params = utils.validate_kwargs(kwargs, [], ["transId", "clientId", "type"])
+        query_string = utils.urlencode(**params)
+        return self.send_signed_request("GET", f"/api/v5/asset/transfer-state{query_string}")
+
+
+    def get_deposit_address(self, **kwargs):
+        """
+        Retrieve the deposit addresses of currencies, including previously-used addresses.
+
+        :param ccy String: 	Currency, e.g. `BTC`
+        """
+        params = utils.validate_kwargs(kwargs, ["ccy"])
+        query_string = utils.urlencode(**params)
+        return self.send_signed_request("GET", f"/api/v5/asset/deposit-address{query_string}")
 
 
     def get_instruments(

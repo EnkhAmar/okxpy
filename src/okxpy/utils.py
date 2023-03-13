@@ -2,6 +2,7 @@ import datetime
 import hmac
 import base64
 import json
+import urllib.parse
 
 # Signature
 """
@@ -63,6 +64,10 @@ def validate_kwargs(kwargs, required_keys:list, optional_keys:list=[]):
             kwargs.pop(key)
 
     return kwargs
+
+
+def urlencode(**kwargs):
+    return ("?" + urllib.parse.urlencode(query=kwargs, doseq=False)) if list(kwargs.items()) else ""
 
 
 def get_public_ip_address():
