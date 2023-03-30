@@ -48,8 +48,8 @@ class OKX:
 
         :param ccy: (optional) Single currency or multiple currencies (no more than 20) separated with comma, e.g. BTC or BTC,ETH.
         """
-        kwargs = utils.validate_kwargs(kwargs, [], ["ccy"])
-        query_string = utils.urlencode(kwargs)
+        params = utils.validate_kwargs(kwargs, [], ["ccy"])
+        query_string = utils.urlencode(**params)
         return self.send_signed_request("GET", f"/api/v5/account/balance{query_string}")
     
 
@@ -129,7 +129,7 @@ class OKX:
         :param ccy String: (optional) Single currency or multiple currencies (no more than 20) separated with comma, e.g. `BTC` or `BTC,ETH`.
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["ccy"])
-        query_string = ("?" + urllib.parse.urlencode(query=kwargs, doseq=False)) if list(kwargs.items()) else ""
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/currencies{query_string}")
     
 
