@@ -43,8 +43,14 @@ class OKX:
         return json.loads(response.text)
 
 
-    def get_account_balance(self):
-        return self.send_signed_request("GET", "/api/v5/account/balance")
+    def get_account_balance(self, **kwargs):
+        r"""Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the trading account.
+
+        :param ccy: (optional) Single currency or multiple currencies (no more than 20) separated with comma, e.g. BTC or BTC,ETH.
+        """
+        kwargs = utils.validate_kwargs(kwargs, [], ["ccy"])
+        query_string = utils.urlencode(kwargs)
+        return self.send_signed_request("GET", f"/api/v5/account/balance{query_string}")
     
 
     def place_order(self, **kwargs):
