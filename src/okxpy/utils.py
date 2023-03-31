@@ -52,15 +52,16 @@ def require_kwargs(required_keys:list, **kwargs):
             raise ValueError(f"Required key '{key}' not found in kwargs")
 
 
-def validate_kwargs(kwargs, required_keys:list, optional_keys:list=[]):
+def validate_kwargs(kwargs: dict, required_keys: list, optional_keys: list = []) -> dict:
     # Validate required keys
     for key in required_keys:
         if key not in kwargs:
             raise ValueError(f"Required key '{key}' not found in kwargs")
 
     # Remove keys that are not in either required or optional keys
+    valid_keys = required_keys + optional_keys
     for key in list(kwargs.keys()):
-        if key not in required_keys and key not in optional_keys:
+        if key not in valid_keys or kwargs[key] is None:
             kwargs.pop(key)
 
     return kwargs
