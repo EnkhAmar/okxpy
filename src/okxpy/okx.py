@@ -140,7 +140,7 @@ class OKX:
         :param ccy String: Single currency or multiple currencies (no more than 20) separated with comma, e.g. `BTC` or `BTC,ETH`.
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["ccy"])
-        query_string = ("?" + urllib.parse.urlencode(query=kwargs, doseq=False)) if list(kwargs.items()) else ""
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/balances{query_string}")
 
 
@@ -151,7 +151,7 @@ class OKX:
         :param ccy String: Asset valuation calculation unit. BTC, USDT, USD, CNY, JP, KRW, RUB, EUR, VND, IDR, INR, PHP, THB, TRY, AUD, SGD, ARS, SAR, AED, IQD. The default is the valuation in BTC.
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["ccy"])
-        query_string = ("?" + urllib.parse.urlencode(query=kwargs, doseq=False)) if list(kwargs.items()) else ""
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/asset-valuation{query_string}")
 
 
@@ -215,7 +215,7 @@ class OKX:
         if uly: params["uly"] = uly
         if instFamily: params["instFamily"] = instFamily
         elif instId: params["instId"] = instId
-        query_string = "?" + urllib.parse.urlencode(query=params, doseq=False,)
+        query_string = utils.urlencode(**params)
         return self.send_signed_request("GET", f"/api/v5/public/instruments{query_string}")
     
     
@@ -227,7 +227,8 @@ class OKX:
         :param before: (optional) If you query the data after the requested creation time ID, the value will be a Unix timestamp in millisecond format.
         :param limit: (optional) Number of results per request. The maximum is 100. The default is 100.
         """
-        query_string = "?" + urllib.parse.urlencode(query=kwargs, doseq=False,)
+        params = utils.validate_kwargs(kwargs, [], ['enable', 'subAcct', 'after', 'before', 'limit',])
+        query_string = utils.urlencode(**params)
         return self.send_signed_request("GET", f"/api/v5/users/subaccount/list{query_string}")
     
 
@@ -244,35 +245,35 @@ class OKXBroker(OKX):
         return self.send_signed_request("GET", "/api/v5/broker/nd/info")
     
     
-    def create_subaccount(self, subAcct:str, label:str=None):
+    def create_subaccount(self, **kwargs):
         """
         Create a sub-account from the broker master account.
         :param subAcct String: Sub-account name. 6-20 letters (case sensitive) or numbers, which can be pure letters and not pure numbers.
         :param label String: (optional) Sub-account notes. No more than 50 letters (case sensitive) or numbers, which can be pure letters or pure numbers.
         """
-        payload = {
-            "subAcct": subAcct,
-        }
-        if label: payload["label"] = label
-        return self.send_signed_request("POST", "/api/v5/broker/nd/create-subaccount", payload=payload)
+        kwargs = utils.validate_kwargs(kwargs, ["subAcct"], ["label"])
+        return self.send_signed_request("POST", "/api/v5/broker/nd/create-subaccount", payload=kwargs)
     
 
-    def delete_subaccount(self, subAcct:str):
+    def delete_subaccount(self, **kwargs):
         """
         Before the sub-account can be deleted, all funds must be transferred from this sub-account.
         :param subAcct String: 	Sub-account name
         """
-        return self.send_signed_request("POST", "/api/v5/broker/nd/delete-subaccount", payload={"subAcct": subAcct})
+        kwargs = utils.validate_kwargs(kwargs, ["subAcct"])
+        return self.send_signed_request("POST", "/api/v5/broker/nd/delete-subaccount", payload=kwargs)
 
 
     def get_subaccount_list(self, **kwargs):
         """
         Get details of the sub-account list
-        :param subAcct String: Sub-account name
-        :param page String: Page for pagination
-        :page limit String: Number of results per request. The maximum is `100`; the default is `100`
+        :param subAcct String: (optional) Sub-account name
+        :param page String: (optional) Page for pagination
+        :page limit String: (optional) Number of results per request. The maximum is `100`; the default is `100`
         """
-        return self.send_signed_request("GET", "/api/v5/broker/nd/subaccount-info")
+        kwargs = utils.validate_kwargs(kwargs, [], ["subAcct", "page", "limit"])
+        query_string = utils.urlencode(**kwargs)
+        return self.send_signed_request("GET", f"/api/v5/broker/nd/subaccount-info{query_string}")
     
 
     def create_api_key_for_subaccount(self, **kwargs):
@@ -295,8 +296,8 @@ class OKXBroker(OKX):
         :param subAcct String: Sub-account name
         :param apiKey String: (optional) API public key
         """
-        utils.require_kwargs(["subAcct"], **kwargs)
-        query_string = "?" + urllib.parse.urlencode(query=kwargs, doseq=False,)
+        kwargs = utils.validate_kwargs(kwargs, ["subAcct"], ["apiKey"])
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/broker/nd/subaccount/apikey{query_string}")
 
 
@@ -379,7 +380,7 @@ class OKXBroker(OKX):
         :param ccy String: 	Currency, e.g. BTC
         """
         kwargs = utils.validate_kwargs(kwargs, ["subAcct", "ccy"])
-        query_string = "?" + urllib.parse.urlencode(query=kwargs, doseq=False,)
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/broker/nd/subaccount-deposit-address{query_string}")
     
 
@@ -396,7 +397,7 @@ class OKXBroker(OKX):
         :param limit String: (optional) Number of results per request. The maximum is `100`; The default is `100`
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["subAcct", "ccy", "txId", "type", "state", "after", "before", "limit"])
-        query_string = "?" + urllib.parse.urlencode(query=kwargs, doseq=False,)
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/broker/nd/subaccount-deposit-history{query_string}")
     
 
@@ -415,6 +416,6 @@ class OKXBroker(OKX):
         :param limit String: (optional) Number of results per request. The maximum is `100`; The default is `100`
         """
         kwargs = utils.validate_kwargs(kwargs, [], ["subAcct", "ccy", "wdId", "clientId", "txId", "type", "state", "after", "before", "limit"])
-        query_string = "?" + urllib.parse.urlencode(query=kwargs, doseq=False)
+        query_string = utils.urlencode(**kwargs)
         return self.send_signed_request("GET", f"/api/v5/asset/broker/nd/subaccount-withdrawal-history{query_string}")
 
